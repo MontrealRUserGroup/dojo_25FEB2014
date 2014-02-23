@@ -11,8 +11,12 @@ Coding Dojo
 
 DeliberatePractice using challenges (katas) to improve skills.
 
+
+
+
+
 Machine learning
-=====
+========================================================
 
 On the edge between computer science and statistics
 
@@ -31,7 +35,7 @@ Clustering of texts by topic
 
 
 Dojo
-=====
+========================================================
 
 - How to
   - get a curated corpus from a series of texts
@@ -66,6 +70,7 @@ Currating the corpus (½)
 - removing puctuation
 - text in lower case
 - remove stop words
+
 
 ```r
 reut21578.corpus <- tm_map(reut21578.corpus, removePunctuation)
@@ -124,13 +129,13 @@ head(fit$cluster)
 
 ```
 127 144 191 194 211 236 
-  2   3   2   2   4   3 
+  5   3   5   5   2   3 
 ```
 
 
 
 Kata 1
-=====================
+========================================================
 type: section
 
 **Topics of available R packages**
@@ -166,16 +171,14 @@ note: inspired by [available.packages by publication date](http://stackoverflow.
 Kata 1 : Get package descriptions
 ========================================================
 
-Get data on available packages on cran (example extracts 100)
-from their description file
-
-Get the files from the url and load in data.frame
-  -remove faulty urls first
+Remove faulty urls first
+  
 
 ```r
+require(plyr)
 test.url <- lapply(desc_urls, function(x){ 
   try.text <- NULL
-  try.test <- try(read.dcf(url(x)))
+  try.test <- try(read.dcf(url(x)),silent = T)
   return(class(try.test)!="try-error")})
 desc_urls <- desc_urls[unlist(test.url)]
 desc <- ldply(desc_urls, function(x)read.dcf(url(x)))
@@ -183,13 +186,110 @@ desc <- ldply(desc_urls, function(x)read.dcf(url(x)))
 
 
 
+Kata 1 : Get package descriptions
+========================================================
+
+Get the files from the url and load in data.frame
+  
+
+```r
+require(plyr)
+desc <- ldply(desc_urls, function(x)read.dcf(url(x)))
+```
+
+
+
+Kata 1 : Descriptions as corpus and term matrix
+========================================================
+Previous steps can be skiped by
 
 
 
 
 
 
+```r
+package.corpus <- Corpus(DataframeSource(data.frame(desc$Description)))
+package.matrix <- as.matrix(TermDocumentMatrix(package.corpus,
+  control=list(bounds=list(global = c(5,Inf)))))
+```
+
+
+Kata 1 : Package description term matrix
+========================================================
+
+
+```r
+head(package.matrix[,1:5])
+```
 
 ```
-Error in readChar(con, 5L, useBytes = TRUE) : cannot open the connection
+            Docs
+Terms        1 2 3 4 5
+  adaptive   0 0 0 0 0
+  algorithm  0 0 0 0 0
+  algorithms 0 1 0 0 0
+  also       0 1 0 0 0
+  analysis   0 0 2 0 0
+  and        2 2 1 2 1
 ```
+
+
+
+
+
+Kata 1 : Topics of available R packages
+========================================================
+
+**Main challenge**
+
+- What is the most popular (number of packages) topic for R packages
+
+**Secondary challenge**
+- Can you sort package according to the functions they use internally?
+- Is there a link between internal function use and topic
+
+Kata 1 : Next steps
+========================================================
+
+- corpus curration
+  - stop words
+  - etc
+- clustering
+
+
+Kata 2
+========================================================
+type: section
+
+**Topic modeling of recent papers in rpubmed**
+
+Kata 2 : 
+========================================================
+
+rOpenSci Packages
+[http://ropensci.org/packages/index.html](http://ropensci.org/packages/index.html)
+
+
+```r
+install.packages("rpubmed")
+require(rpubmed)
+```
+
+
+Final notes
+========================================================
+
+To extract R code from this presentation run:
+
+
+```r
+require(knitr)
+purl("~/Documents/R/dojo_25FEB2014/Presentation/dojo_25FEB2014.Rpres",
+     "~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R",quiet=T)
+```
+
+```
+[1] "~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R"
+```
+
