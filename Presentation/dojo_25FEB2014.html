@@ -936,7 +936,7 @@ head(fit$cluster)
 </code></pre>
 
 <pre><code>127 144 191 194 211 236 
-  2   3   2   2   4   3 
+  5   3   5   5   2   3 
 </code></pre>
 
 </div>
@@ -991,21 +991,131 @@ desc_urls &lt;- paste(&quot;http://cran.r-project.org/web/packages/&quot;, pkgs,
 <section data-transition="linear" data-transition-speed="default">
 <h3>Kata 1 : Get package descriptions</h3>
 <div class="slideContent" >
-<p>Get data on available packages on cran (example extracts 100)
-from their description file</p>
+<p>Remove faulty urls first</p>
 
-<p>Get the files from the url and load in data.frame
-  -remove faulty urls first</p>
-
-<pre><code class="r">test.url &lt;- lapply(desc_urls, function(x){ 
+<pre><code class="r">require(plyr)
+test.url &lt;- lapply(desc_urls, function(x){ 
   try.text &lt;- NULL
-  try.test &lt;- try(read.dcf(url(x)))
+  try.test &lt;- try(read.dcf(url(x)),silent = T)
   return(class(try.test)!=&quot;try-error&quot;)})
 desc_urls &lt;- desc_urls[unlist(test.url)]
 desc &lt;- ldply(desc_urls, function(x)read.dcf(url(x)))
 </code></pre>
 
-<pre><code>Error in readChar(con, 5L, useBytes = TRUE) : cannot open the connection
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Kata 1 : Get package descriptions</h3>
+<div class="slideContent" >
+<p>Get the files from the url and load in data.frame</p>
+
+<pre><code class="r">require(plyr)
+desc &lt;- ldply(desc_urls, function(x)read.dcf(url(x)))
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Kata 1 : Descriptions as corpus and term matrix</h3>
+<div class="slideContent" >
+<p>Previous steps can be skiped by</p>
+
+<pre><code class="r">package.corpus &lt;- Corpus(DataframeSource(data.frame(desc$Description)))
+package.matrix &lt;- as.matrix(TermDocumentMatrix(package.corpus,
+  control=list(bounds=list(global = c(5,Inf)))))
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Kata 1 : Package description term matrix</h3>
+<div class="slideContent" >
+<pre><code class="r">head(package.matrix[,1:5])
+</code></pre>
+
+<pre><code>            Docs
+Terms        1 2 3 4 5
+  adaptive   0 0 0 0 0
+  algorithm  0 0 0 0 0
+  algorithms 0 1 0 0 0
+  also       0 1 0 0 0
+  analysis   0 0 2 0 0
+  and        2 2 1 2 1
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Kata 1 : Topics of available R packages</h3>
+<div class="slideContent" >
+<p><strong>Main challenge</strong></p>
+
+<ul>
+<li>What is the most popular (number of packages) topic for R packages</li>
+</ul>
+
+<p><strong>Secondary challenge</strong></p>
+
+<ul>
+<li>Can you sort package according to the functions they use internally?</li>
+<li>Is there a link between internal function use and topic</li>
+</ul>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Kata 1 : Next steps</h3>
+<div class="slideContent" >
+<ul>
+<li>corpus curration
+
+<ul>
+<li>stop words</li>
+<li>etc</li>
+</ul></li>
+<li>clustering</li>
+</ul>
+
+</div>
+
+</section>
+<section data-state="section" data-transition="linear" data-transition-speed="default">
+<h2>Kata 2</h2>
+<div class="slideContent" >
+<p><strong>Topic modeling of recent papers in rpubmed</strong></p>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Kata 2 : </h3>
+<div class="slideContent" >
+<p>rOpenSci Packages
+<a href="http://ropensci.org/packages/index.html">http://ropensci.org/packages/index.html</a></p>
+
+<pre><code class="r">install.packages(&quot;rpubmed&quot;)
+require(rpubmed)
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Final notes</h3>
+<div class="slideContent" >
+<p>To extract R code from this presentation run:</p>
+
+<pre><code class="r">require(knitr)
+purl(&quot;~/Documents/R/dojo_25FEB2014/Presentation/dojo_25FEB2014.Rpres&quot;,
+     &quot;~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R&quot;,quiet=T)
+</code></pre>
+
+<pre><code>[1] &quot;~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R&quot;
 </code></pre>
 
 </div>
