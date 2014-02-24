@@ -1,7 +1,17 @@
-Coding Dojo: Machine Learning
+Coding Dojo
 ========================================================
 author: Etienne Low-Decarie and Vaughn DiMarco
 date: 25 Feb 2014
+css: my_style.css
+
+Machine Learning and Text Mining
+--------------------------------------------------------
+
+
+
+
+
+
 
 Coding Dojo
 ========================================================
@@ -52,7 +62,7 @@ Loading texts into a corpus
 =======================================================
 
 
-```{r warning=FALSE,cache=TRUE}
+```{r warning=FALSE,cache=TRUE, tidy=TRUE}
 require(tm)
 #Tell R to only use one core (if you only have two)
 options(mc.cores=1)
@@ -70,7 +80,7 @@ Currating the corpus (½)
 - text in lower case
 - remove stop words
 
-```{r warning=FALSE,cache=TRUE}
+```{r warning=FALSE,cache=TRUE, tidy=TRUE}
 reut21578.corpus <- tm_map(reut21578.corpus, removePunctuation)
 reut21578.corpus <- tm_map(reut21578.corpus, tolower)
 reut21578.corpus <- tm_map(reut21578.corpus,
@@ -86,7 +96,7 @@ Currating the corpus (2/2)
 - extracting the word matrix for use by machine learning functions
   - Only words present in at least 5 texts
   
-```{r warning=FALSE,cache=TRUE}
+```{r warning=FALSE,cache=TRUE, tidy=TRUE}
 reut21578.corpus <- tm_map(reut21578.corpus, stemDocument, language = "english")
 reut21578.matrix <- as.matrix(TermDocumentMatrix(reut21578.corpus,
   control=list(bounds=list(global = c(5,Inf)))))
@@ -95,7 +105,7 @@ reut21578.matrix <- as.matrix(TermDocumentMatrix(reut21578.corpus,
 Corpus as term matrix
 ========================================================
 
-```{r warning=FALSE,cache=TRUE}
+```{r warning=FALSE,cache=TRUE, tidy=TRUE}
 head(reut21578.matrix[,1:5])
 ```
 
@@ -103,7 +113,7 @@ head(reut21578.matrix[,1:5])
 Example clustering based on term matrix
 ========================================================
 
-```{r warning=FALSE,cache=TRUE}
+```{r warning=FALSE,cache=TRUE, tidy=TRUE}
 fit <- kmeans(t(reut21578.matrix),5)
 head(fit$cluster)
 ```
@@ -133,7 +143,7 @@ Get data on available packages on cran (example extracts 100)
 from their description file
 
 Get the url to the decsription files
-```{r warning=FALSE,error=FALSE,cache=TRUE}
+```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
 require(plyr)
 options(repos=structure(c(CRAN="http://cran.rstudio.com/")))
 pkgs <- unname(available.packages()[, 1])[1:100]
@@ -146,7 +156,7 @@ Kata 1 : Get package descriptions
 
 Remove faulty urls first
   
-```{r warning=FALSE,error=FALSE,cache=TRUE}
+```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
 require(plyr)
 test.url <- lapply(desc_urls, function(x){ 
   try.text <- NULL
@@ -162,7 +172,7 @@ Kata 1 : Get package descriptions
 
 Get the files from the url and load in data.frame
   
-```{r warning=FALSE,error=FALSE,cache=TRUE}
+```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
 require(plyr)
 desc <- ldply(desc_urls, function(x)read.dcf(url(x)))
 ```
@@ -178,7 +188,7 @@ Previous steps can be skiped by
 ```
 
 
-```{r warning=FALSE,error=FALSE,cache=TRUE}
+```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
 package.corpus <- Corpus(DataframeSource(data.frame(desc$Description)))
 package.matrix <- as.matrix(TermDocumentMatrix(package.corpus,
   control=list(bounds=list(global = c(5,Inf)))))
@@ -187,7 +197,7 @@ package.matrix <- as.matrix(TermDocumentMatrix(package.corpus,
 Kata 1 : Package description term matrix
 ========================================================
 
-```{r warning=FALSE,error=FALSE,cache=TRUE}
+```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
 head(package.matrix[,1:5])
 ```
 
@@ -226,7 +236,7 @@ Kata 2 :
 rOpenSci Packages
 [http://ropensci.org/packages/index.html](http://ropensci.org/packages/index.html)
 
-```{r warning=FALSE,error=FALSE,cache=TRUE}
+```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
 install.packages("rpubmed")
 require(rpubmed)
 ```
@@ -236,8 +246,9 @@ Final notes
 
 To extract R code from this presentation run:
 
-```{r warning=FALSE,error=FALSE,cache=TRUE}
+```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
 require(knitr)
 purl("~/Documents/R/dojo_25FEB2014/Presentation/dojo_25FEB2014.Rpres",
-     "~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R",quiet=T)
+     "~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R",
+     quiet=T)
 ```

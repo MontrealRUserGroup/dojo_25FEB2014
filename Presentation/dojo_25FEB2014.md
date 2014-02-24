@@ -1,7 +1,17 @@
-Coding Dojo: Machine Learning
+Coding Dojo
 ========================================================
 author: Etienne Low-Decarie and Vaughn DiMarco
 date: 25 Feb 2014
+css: my_style.css
+
+Machine Learning and Text Mining
+--------------------------------------------------------
+
+
+
+
+
+
 
 Coding Dojo
 ========================================================
@@ -54,13 +64,12 @@ Loading texts into a corpus
 
 ```r
 require(tm)
-#Tell R to only use one core (if you only have two)
-options(mc.cores=1)
+# Tell R to only use one core (if you only have two)
+options(mc.cores = 1)
 
-#Load Reuters text into a corpus
+# Load Reuters text into a corpus
 reut21578 <- system.file("texts", "crude", package = "tm")
-reut21578.corpus <- Corpus(DirSource(reut21578),
-                           readerControl = list(reader = readReut21578XMLasPlain))
+reut21578.corpus <- Corpus(DirSource(reut21578), readerControl = list(reader = readReut21578XMLasPlain))
 ```
 
 
@@ -75,10 +84,9 @@ Currating the corpus (½)
 ```r
 reut21578.corpus <- tm_map(reut21578.corpus, removePunctuation)
 reut21578.corpus <- tm_map(reut21578.corpus, tolower)
-reut21578.corpus <- tm_map(reut21578.corpus,
-  function(x){
-    removeWords(x,stopwords("english"))
-    })
+reut21578.corpus <- tm_map(reut21578.corpus, function(x) {
+    removeWords(x, stopwords("english"))
+})
 ```
 
 
@@ -92,8 +100,8 @@ Currating the corpus (2/2)
 
 ```r
 reut21578.corpus <- tm_map(reut21578.corpus, stemDocument, language = "english")
-reut21578.matrix <- as.matrix(TermDocumentMatrix(reut21578.corpus,
-  control=list(bounds=list(global = c(5,Inf)))))
+reut21578.matrix <- as.matrix(TermDocumentMatrix(reut21578.corpus, control = list(bounds = list(global = c(5, 
+    Inf)))))
 ```
 
 
@@ -102,7 +110,7 @@ Corpus as term matrix
 
 
 ```r
-head(reut21578.matrix[,1:5])
+head(reut21578.matrix[, 1:5])
 ```
 
 ```
@@ -123,13 +131,13 @@ Example clustering based on term matrix
 
 
 ```r
-fit <- kmeans(t(reut21578.matrix),5)
+fit <- kmeans(t(reut21578.matrix), 5)
 head(fit$cluster)
 ```
 
 ```
 127 144 191 194 211 236 
-  5   3   5   5   2   3 
+  3   4   3   3   3   2 
 ```
 
 
@@ -161,9 +169,10 @@ Get the url to the decsription files
 
 ```r
 require(plyr)
-options(repos=structure(c(CRAN="http://cran.rstudio.com/")))
+options(repos = structure(c(CRAN = "http://cran.rstudio.com/")))
 pkgs <- unname(available.packages()[, 1])[1:100]
-desc_urls <- paste("http://cran.r-project.org/web/packages/", pkgs, "/DESCRIPTION", sep = "")
+desc_urls <- paste("http://cran.r-project.org/web/packages/", pkgs, "/DESCRIPTION", 
+    sep = "")
 ```
 
 note: inspired by [available.packages by publication date](http://stackoverflow.com/questions/8722233/available-packages-by-publication-date)
@@ -176,12 +185,13 @@ Remove faulty urls first
 
 ```r
 require(plyr)
-test.url <- lapply(desc_urls, function(x){ 
-  try.text <- NULL
-  try.test <- try(read.dcf(url(x)),silent = T)
-  return(class(try.test)!="try-error")})
+test.url <- lapply(desc_urls, function(x) {
+    try.text <- NULL
+    try.test <- try(read.dcf(url(x)), silent = T)
+    return(class(try.test) != "try-error")
+})
 desc_urls <- desc_urls[unlist(test.url)]
-desc <- ldply(desc_urls, function(x)read.dcf(url(x)))
+desc <- ldply(desc_urls, function(x) read.dcf(url(x)))
 ```
 
 
@@ -194,7 +204,7 @@ Get the files from the url and load in data.frame
 
 ```r
 require(plyr)
-desc <- ldply(desc_urls, function(x)read.dcf(url(x)))
+desc <- ldply(desc_urls, function(x) read.dcf(url(x)))
 ```
 
 
@@ -210,8 +220,8 @@ Previous steps can be skiped by
 
 ```r
 package.corpus <- Corpus(DataframeSource(data.frame(desc$Description)))
-package.matrix <- as.matrix(TermDocumentMatrix(package.corpus,
-  control=list(bounds=list(global = c(5,Inf)))))
+package.matrix <- as.matrix(TermDocumentMatrix(package.corpus, control = list(bounds = list(global = c(5, 
+    Inf)))))
 ```
 
 
@@ -220,7 +230,7 @@ Kata 1 : Package description term matrix
 
 
 ```r
-head(package.matrix[,1:5])
+head(package.matrix[, 1:5])
 ```
 
 ```
@@ -285,8 +295,8 @@ To extract R code from this presentation run:
 
 ```r
 require(knitr)
-purl("~/Documents/R/dojo_25FEB2014/Presentation/dojo_25FEB2014.Rpres",
-     "~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R",quiet=T)
+purl("~/Documents/R/dojo_25FEB2014/Presentation/dojo_25FEB2014.Rpres", "~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R", 
+    quiet = T)
 ```
 
 ```
