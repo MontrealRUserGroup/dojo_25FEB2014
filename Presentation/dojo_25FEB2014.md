@@ -1,16 +1,11 @@
 Coding Dojo
 ========================================================
-author: Etienne Low-Decarie and Vaughn DiMarco
+author: Etienne Low-Decarie & Vaughn DiMarco
 date: 25 Feb 2014
 css: my_style.css
 
 Machine Learning and Text Mining
 --------------------------------------------------------
-
-
-
-
-
 
 
 Coding Dojo
@@ -22,6 +17,9 @@ Coding Dojo
 DeliberatePractice using challenges (katas) to improve skills.
 
 
+```
+[1] "/media/v/home/v/git/MTLRUSER/CodeDojo/dojo_25FEB2014/Presentation"
+```
 
 
 
@@ -51,7 +49,7 @@ Dojo
   - get a curated corpus from a series of texts
   - example topic model
 - Kata 1: Topics of R packages
-- Kata 2: 
+- Kata 2: Topic Modeling
 
 Loading data for topic modeling 
 =======================================================
@@ -137,7 +135,7 @@ head(fit$cluster)
 
 ```
 127 144 191 194 211 236 
-  3   4   3   3   3   2 
+  1   3   1   1   2   3 
 ```
 
 
@@ -218,88 +216,12 @@ Previous steps can be skiped by
 
 
 
-```r
-package.corpus <- Corpus(DataframeSource(data.frame(desc$Description)))
-package.matrix <- as.matrix(TermDocumentMatrix(package.corpus, control = list(bounds = list(global = c(5, 
-    Inf)))))
-```
-
-
-Kata 1 : Package description term matrix
-========================================================
-
-
-```r
-head(package.matrix[, 1:5])
-```
-
-```
-            Docs
-Terms        1 2 3 4 5
-  adaptive   0 0 0 0 0
-  algorithm  0 0 0 0 0
-  algorithms 0 1 0 0 0
-  also       0 1 0 0 0
-  analysis   0 0 2 0 0
-  and        2 2 1 2 1
-```
 
 
 
 
 
-Kata 1 : Topics of available R packages
-========================================================
-
-**Main challenge**
-
-- What is the most popular (number of packages) topic for R packages
-
-**Secondary challenge**
-- Can you sort package according to the functions they use internally?
-- Is there a link between internal function use and topic
-
-Kata 1 : Next steps
-========================================================
-
-- corpus curration
-  - stop words
-  - etc
-- clustering
-
-
-Kata 2
-========================================================
-type: section
-
-**Topic modeling of recent papers in rpubmed**
-
-Kata 2 : 
-========================================================
-
-rOpenSci Packages
-[http://ropensci.org/packages/index.html](http://ropensci.org/packages/index.html)
-
-
-```r
-install.packages("rpubmed")
-require(rpubmed)
-```
-
-
-Final notes
-========================================================
-
-To extract R code from this presentation run:
-
-
-```r
-require(knitr)
-purl("~/Documents/R/dojo_25FEB2014/Presentation/dojo_25FEB2014.Rpres", "~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R", 
-    quiet = T)
-```
 
 ```
-[1] "~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R"
+Error in readChar(con, 5L, useBytes = TRUE) : cannot open the connection
 ```
-

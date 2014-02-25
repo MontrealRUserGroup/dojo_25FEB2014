@@ -1,16 +1,11 @@
 Coding Dojo
 ========================================================
-author: Etienne Low-Decarie and Vaughn DiMarco
+author: Etienne Low-Decarie & Vaughn DiMarco
 date: 25 Feb 2014
 css: my_style.css
 
 Machine Learning and Text Mining
 --------------------------------------------------------
-
-
-
-
-
 
 
 Coding Dojo
@@ -22,7 +17,8 @@ Coding Dojo
 DeliberatePractice using challenges (katas) to improve skills.
 
 ```{r echo=FALSE}
-  setwd("~/Documents/R/dojo_25FEB2014/")
+  wd <- getwd() # on my system: "~/git/MTLRUSER/CodeDojo/dojo_25FEB2014"
+  wd
 ```
 
 
@@ -52,7 +48,7 @@ Dojo
   - get a curated corpus from a series of texts
   - example topic model
 - Kata 1: Topics of R packages
-- Kata 2: 
+- Kata 2: Topic Modeling
 
 Loading data for topic modeling 
 =======================================================
@@ -183,7 +179,7 @@ Kata 1 : Descriptions as corpus and term matrix
 Previous steps can be skiped by
 
 ```{r echo=FALSE}
-  setwd("~/Documents/R/dojo_25FEB2014/")
+  setwd(wd)
   load(file="./Data/package_corpus.RData")
 ```
 
@@ -230,7 +226,7 @@ type: section
 
 **Topic modeling of recent papers in rpubmed**
 
-Kata 2 : 
+Kata 2 : Topic modeling
 ========================================================
 
 rOpenSci Packages
@@ -248,7 +244,6 @@ To extract R code from this presentation run:
 
 ```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
 require(knitr)
-purl("~/Documents/R/dojo_25FEB2014/Presentation/dojo_25FEB2014.Rpres",
-     "~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R",
-     quiet=T)
+purl("./Presentation/dojo_25FEB2014.Rpres",
+     "./R/dojo_25FEB2014.R")
 ```

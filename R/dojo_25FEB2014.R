@@ -1,6 +1,7 @@
 
 ## ----echo=FALSE----------------------------------------------------------
-  setwd("~/Documents/R/dojo_25FEB2014/")
+  wd <- getwd() # on my system: "~/git/MTLRUSER/CodeDojo/dojo_25FEB2014"
+  wd
 
 
 ## ----warning=FALSE,cache=TRUE, tidy=TRUE---------------------------------
@@ -61,7 +62,7 @@ desc <- ldply(desc_urls, function(x)read.dcf(url(x)))
 
 
 ## ----echo=FALSE----------------------------------------------------------
-  setwd("~/Documents/R/dojo_25FEB2014/")
+  setwd(wd)
   load(file="./Data/package_corpus.RData")
 
 
@@ -82,8 +83,7 @@ require(rpubmed)
 
 ## ----warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE---------------------
 require(knitr)
-purl("~/Documents/R/dojo_25FEB2014/Presentation/dojo_25FEB2014.Rpres",
-     "~/Documents/R/dojo_25FEB2014/R/dojo_25FEB2014.R",
-     quiet=T)
+purl("./Presentation/dojo_25FEB2014.Rpres",
+     "./R/dojo_25FEB2014.R")
 
 
