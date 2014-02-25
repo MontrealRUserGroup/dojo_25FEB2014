@@ -7,10 +7,10 @@ Montreal R User Group Coding Dojo on Topic Modeling and Machine Learning
 
 [R file](https://raw2.github.com/MontrealRUserGroup/dojo_25FEB2014/master/R/dojo_25FEB2014.R)
 
-# required packages
+## required packages
 
-library("tm")
-library("plyr")
+- library("tm")
+- library("plyr")
 
-library("googleVis")
-library("shiny")
+- library("googleVis")
+- library("shiny")

@@ -1135,7 +1135,7 @@ hljs.initHighlightingOnLoad();
 <h1>Coding Dojo</h1><p>Etienne Low-Decarie &amp; Vaughn DiMarco<br/>25 Feb 2014</p>
 
 <div class="slideContent" >
-<h2>Machine Learning and Text Mining</h2>
+<h2>Text Mining &amp; Machine Learning</h2>
 
 </div>
 
@@ -1157,7 +1157,7 @@ hljs.initHighlightingOnLoad();
 <section data-transition="linear" data-transition-speed="default">
 <h3>Machine learning</h3>
 <div class="slideContent" >
-<p>On the edge between computer science and statistics</p>
+<p>The edge between computer science and statistics</p>
 
 <p><strong>R packages</strong></p>
 
@@ -1171,11 +1171,7 @@ hljs.initHighlightingOnLoad();
 
 <ul>
 <li>usually using distribution of words in a corpus</li>
-<li>key packages
-
-<ul>
-<li>tm</li>
-</ul></li>
+<li>key packages (mainly tm)</li>
 </ul>
 
 </div>
@@ -1191,8 +1187,6 @@ hljs.initHighlightingOnLoad();
 <li>get a curated corpus from a series of texts</li>
 <li>example topic model</li>
 </ul></li>
-<li>Kata 1: Topics of R packages</li>
-<li>Kata 2: </li>
 </ul>
 
 </div>
@@ -1221,7 +1215,7 @@ reut21578.corpus &lt;- Corpus(DirSource(reut21578), readerControl = list(reader 
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>Currating the corpus (½)</h3>
+<h3>Currating the corpus (1/2)</h3>
 <div class="slideContent" >
 <ul>
 <li>removing puctuation</li>
@@ -1286,14 +1280,14 @@ head(fit$cluster)
 </code></pre>
 
 <pre><code>127 144 191 194 211 236 
-  1   4   1   1   1   4 
+  1   3   1   1   2   3 
 </code></pre>
 
 </div>
 
 </section>
 <section data-state="section" data-transition="linear" data-transition-speed="default">
-<h2>Kata 1</h2>
+<h2>Let's Dojo!</h2>
 <div class="slideContent" >
 <p><strong>Topics of available R packages</strong></p>
 
@@ -1301,7 +1295,7 @@ head(fit$cluster)
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>Kata 1 : Topics of available R packages (⅔)</h3>
+<h3>Kata : Topics of available R packages</h3>
 <div class="slideContent" >
 <p><strong>Main challenge</strong></p>
 
@@ -1320,7 +1314,7 @@ head(fit$cluster)
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>Kata 1 : Get package descriptions</h3>
+<h3>Kata : Get package descriptions</h3>
 <div class="slideContent" >
 <p>Get data on available packages on cran (example extracts 100)
 from their description file</p>
@@ -1334,13 +1328,13 @@ desc_urls &lt;- paste(&quot;http://cran.r-project.org/web/packages/&quot;, pkgs,
     sep = &quot;&quot;)
 </code></pre>
 
-<p>note: inspired by <a href="http://stackoverflow.com/questions/8722233/available-packages-by-publication-date">available.packages by publication date</a></p>
+<p>note: inspired by <a href="http://stackoverflow.com/questions/8722233/available-packages-by-publication-date">Stack Overflow Question: packages by publication date</a></p>
 
 </div>
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>Kata 1 : Get package descriptions</h3>
+<h3>Kata : Get package descriptions</h3>
 <div class="slideContent" >
 <p>Remove faulty urls first</p>
 
@@ -1358,7 +1352,7 @@ desc &lt;- ldply(desc_urls, function(x) read.dcf(url(x)))
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>Kata 1 : Get package descriptions</h3>
+<h3>Kata : Get package descriptions</h3>
 <div class="slideContent" >
 <p>Get the files from the url and load in data.frame</p>
 
@@ -1370,12 +1364,76 @@ desc &lt;- ldply(desc_urls, function(x) read.dcf(url(x)))
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>Kata 1 : Descriptions as corpus and term matrix</h3>
+<h3>Kata : Descriptions as corpus and term matrix</h3>
 <div class="slideContent" >
-<p>Previous steps can be skiped by</p>
-
-<pre><code>Error in readChar(con, 5L, useBytes = TRUE) : cannot open the connection
+<pre><code class="r">package.corpus &lt;- Corpus(DataframeSource(data.frame(desc$Description)))
+package.matrix &lt;- as.matrix(TermDocumentMatrix(package.corpus, control = list(bounds = list(global = c(5, 
+    Inf)))))
 </code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Kata : Package description term matrix</h3>
+<div class="slideContent" >
+<pre><code class="r">head(package.matrix[, 1:15])
+</code></pre>
+
+<pre><code>            Docs
+Terms        1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  adaptive   0 0 0 0 0 0 0 0 0  0  0  0  0  0  0
+  algorithm  0 0 0 0 0 0 0 0 0  0  0  0  0  0  0
+  algorithms 0 1 0 0 0 0 0 0 0  0  0  0  1  0  0
+  also       0 1 0 0 0 0 0 0 0  1  1  0  0  0  0
+  analysis   0 0 2 0 0 0 0 1 0  0  0  0  0  0  0
+  and        2 2 1 2 1 2 1 2 0  4  3  1  2  1  4
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Kata : Recap</h3>
+<div class="slideContent" >
+<p><strong>Main challenge</strong></p>
+
+<ul>
+<li>What is the most popular (number of packages) topic for R packages</li>
+</ul>
+
+<p><strong>Secondary challenge</strong></p>
+
+<ul>
+<li>Can you sort package according to the functions they use internally?</li>
+<li>Is there a link between internal function use and topic</li>
+</ul>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Kata : Next steps</h3>
+<div class="slideContent" >
+<ul>
+<li>corpus curration
+
+<ul>
+<li>stop words</li>
+<li>etc</li>
+</ul></li>
+<li>clustering</li>
+</ul>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Final notes</h3>
+<div class="slideContent" >
+<p>To extract R code from this presentation run:</p>
+
+<p>purl(&ldquo;Presentation/dojo_25FEB2014.Rpres&rdquo;, &ldquo;R/dojo_25FEB2014.R&rdquo;)</p>
 
 </div>
 

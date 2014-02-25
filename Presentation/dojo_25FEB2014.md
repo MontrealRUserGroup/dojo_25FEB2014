@@ -4,7 +4,7 @@ author: Etienne Low-Decarie & Vaughn DiMarco
 date: 25 Feb 2014
 css: my_style.css
 
-Machine Learning and Text Mining
+Text Mining & Machine Learning
 --------------------------------------------------------
 
 
@@ -26,7 +26,7 @@ DeliberatePractice using challenges (katas) to improve skills.
 Machine learning
 ========================================================
 
-On the edge between computer science and statistics
+The edge between computer science and statistics
 
 **R packages**
 
@@ -38,8 +38,7 @@ and CRAN Task View: [Cluster Analysis & Finite Mixture Models] (http://cran.r-pr
 
 Clustering of texts by topic
 - usually using distribution of words in a corpus
-- key packages
-  - tm
+- key packages (mainly tm)
 
 
 Dojo
@@ -48,8 +47,6 @@ Dojo
 - How to
   - get a curated corpus from a series of texts
   - example topic model
-- Kata 1: Topics of R packages
-- Kata 2: Topic Modeling
 
 Loading data for topic modeling 
 =======================================================
@@ -71,7 +68,7 @@ reut21578.corpus <- Corpus(DirSource(reut21578), readerControl = list(reader = r
 ```
 
 
-Currating the corpus (½)
+Currating the corpus (1/2)
 ========================================================
 
 - removing puctuation
@@ -140,13 +137,13 @@ head(fit$cluster)
 
 
 
-Kata 1
+Let's Dojo!
 ========================================================
 type: section
 
 **Topics of available R packages**
 
-Kata 1 : Topics of available R packages (⅔)
+Kata : Topics of available R packages
 ========================================================
 
 **Main challenge**
@@ -157,7 +154,7 @@ Kata 1 : Topics of available R packages (⅔)
 - Can you sort package according to the functions they use internally?
 - Is there a link between internal function use and topic
 
-Kata 1 : Get package descriptions
+Kata : Get package descriptions
 ========================================================
 
 Get data on available packages on cran (example extracts 100)
@@ -173,9 +170,9 @@ desc_urls <- paste("http://cran.r-project.org/web/packages/", pkgs, "/DESCRIPTIO
     sep = "")
 ```
 
-note: inspired by [available.packages by publication date](http://stackoverflow.com/questions/8722233/available-packages-by-publication-date)
+note: inspired by [Stack Overflow Question: packages by publication date](http://stackoverflow.com/questions/8722233/available-packages-by-publication-date)
 
-Kata 1 : Get package descriptions
+Kata : Get package descriptions
 ========================================================
 
 Remove faulty urls first
@@ -194,7 +191,7 @@ desc <- ldply(desc_urls, function(x) read.dcf(url(x)))
 
 
 
-Kata 1 : Get package descriptions
+Kata : Get package descriptions
 ========================================================
 
 Get the files from the url and load in data.frame
@@ -207,9 +204,8 @@ desc <- ldply(desc_urls, function(x) read.dcf(url(x)))
 
 
 
-Kata 1 : Descriptions as corpus and term matrix
+Kata : Descriptions as corpus and term matrix
 ========================================================
-Previous steps can be skiped by
 
 
 
@@ -217,11 +213,57 @@ Previous steps can be skiped by
 
 
 
+```r
+package.corpus <- Corpus(DataframeSource(data.frame(desc$Description)))
+package.matrix <- as.matrix(TermDocumentMatrix(package.corpus, control = list(bounds = list(global = c(5, 
+    Inf)))))
+```
 
 
+Kata : Package description term matrix
+========================================================
 
 
+```r
+head(package.matrix[, 1:15])
+```
 
 ```
-Error in readChar(con, 5L, useBytes = TRUE) : cannot open the connection
+            Docs
+Terms        1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  adaptive   0 0 0 0 0 0 0 0 0  0  0  0  0  0  0
+  algorithm  0 0 0 0 0 0 0 0 0  0  0  0  0  0  0
+  algorithms 0 1 0 0 0 0 0 0 0  0  0  0  1  0  0
+  also       0 1 0 0 0 0 0 0 0  1  1  0  0  0  0
+  analysis   0 0 2 0 0 0 0 1 0  0  0  0  0  0  0
+  and        2 2 1 2 1 2 1 2 0  4  3  1  2  1  4
 ```
+
+
+
+Kata : Recap
+========================================================
+
+**Main challenge**
+
+- What is the most popular (number of packages) topic for R packages
+
+**Secondary challenge**
+- Can you sort package according to the functions they use internally?
+- Is there a link between internal function use and topic
+
+Kata : Next steps
+========================================================
+
+- corpus curration
+  - stop words
+  - etc
+- clustering
+
+Final notes
+========================================================
+
+To extract R code from this presentation run:
+
+  purl("Presentation/dojo_25FEB2014.Rpres", "R/dojo_25FEB2014.R")
+  

@@ -4,7 +4,7 @@ author: Etienne Low-Decarie & Vaughn DiMarco
 date: 25 Feb 2014
 css: my_style.css
 
-Machine Learning and Text Mining
+Text Mining & Machine Learning
 --------------------------------------------------------
 
 
@@ -25,7 +25,7 @@ DeliberatePractice using challenges (katas) to improve skills.
 Machine learning
 ========================================================
 
-On the edge between computer science and statistics
+The edge between computer science and statistics
 
 **R packages**
 
@@ -37,8 +37,7 @@ and CRAN Task View: [Cluster Analysis & Finite Mixture Models] (http://cran.r-pr
 
 Clustering of texts by topic
 - usually using distribution of words in a corpus
-- key packages
-  - tm
+- key packages (mainly tm)
 
 
 Dojo
@@ -47,8 +46,6 @@ Dojo
 - How to
   - get a curated corpus from a series of texts
   - example topic model
-- Kata 1: Topics of R packages
-- Kata 2: Topic Modeling
 
 Loading data for topic modeling 
 =======================================================
@@ -69,7 +66,7 @@ reut21578.corpus <- Corpus(DirSource(reut21578),
                            readerControl = list(reader = readReut21578XMLasPlain))
 ```
 
-Currating the corpus (½)
+Currating the corpus (1/2)
 ========================================================
 
 - removing puctuation
@@ -95,7 +92,7 @@ Currating the corpus (2/2)
 ```{r warning=FALSE,cache=TRUE, tidy=TRUE}
 reut21578.corpus <- tm_map(reut21578.corpus, stemDocument, language = "english")
 reut21578.matrix <- as.matrix(TermDocumentMatrix(reut21578.corpus,
-  control=list(bounds=list(global = c(5,Inf)))))
+  control=list(bounds=list(global = c(5, Inf)))))
 ```
 
 Corpus as term matrix
@@ -115,13 +112,13 @@ head(fit$cluster)
 ```
 
 
-Kata 1
+Let's Dojo!
 ========================================================
 type: section
 
 **Topics of available R packages**
 
-Kata 1 : Topics of available R packages (⅔)
+Kata : Topics of available R packages
 ========================================================
 
 **Main challenge**
@@ -132,7 +129,7 @@ Kata 1 : Topics of available R packages (⅔)
 - Can you sort package according to the functions they use internally?
 - Is there a link between internal function use and topic
 
-Kata 1 : Get package descriptions
+Kata : Get package descriptions
 ========================================================
 
 Get data on available packages on cran (example extracts 100)
@@ -145,9 +142,9 @@ options(repos=structure(c(CRAN="http://cran.rstudio.com/")))
 pkgs <- unname(available.packages()[, 1])[1:100]
 desc_urls <- paste("http://cran.r-project.org/web/packages/", pkgs, "/DESCRIPTION", sep = "")
 ```
-note: inspired by [available.packages by publication date](http://stackoverflow.com/questions/8722233/available-packages-by-publication-date)
+note: inspired by [Stack Overflow Question: packages by publication date](http://stackoverflow.com/questions/8722233/available-packages-by-publication-date)
 
-Kata 1 : Get package descriptions
+Kata : Get package descriptions
 ========================================================
 
 Remove faulty urls first
@@ -163,7 +160,7 @@ desc <- ldply(desc_urls, function(x)read.dcf(url(x)))
 ```
 
 
-Kata 1 : Get package descriptions
+Kata : Get package descriptions
 ========================================================
 
 Get the files from the url and load in data.frame
@@ -174,33 +171,33 @@ desc <- ldply(desc_urls, function(x)read.dcf(url(x)))
 ```
 
 
-Kata 1 : Descriptions as corpus and term matrix
+Kata : Descriptions as corpus and term matrix
 ========================================================
-Previous steps can be skiped by
+
 
 ```{r echo=FALSE}
-  setwd(wd)
-  load(file="./Data/package_corpus.RData")
+  # Previous steps can be skiped by loading this RData file
+
+  # load(file="Data/package_corpus.RData")
+
 ```
 
 
-```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
+```{r cache=TRUE, tidy=TRUE, error=FALSE}
 package.corpus <- Corpus(DataframeSource(data.frame(desc$Description)))
 package.matrix <- as.matrix(TermDocumentMatrix(package.corpus,
   control=list(bounds=list(global = c(5,Inf)))))
 ```
 
-Kata 1 : Package description term matrix
+Kata : Package description term matrix
 ========================================================
 
 ```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
-head(package.matrix[,1:5])
+head(package.matrix[,1:15])
 ```
 
 
-
-
-Kata 1 : Topics of available R packages
+Kata : Recap
 ========================================================
 
 **Main challenge**
@@ -211,7 +208,7 @@ Kata 1 : Topics of available R packages
 - Can you sort package according to the functions they use internally?
 - Is there a link between internal function use and topic
 
-Kata 1 : Next steps
+Kata : Next steps
 ========================================================
 
 - corpus curration
@@ -219,31 +216,10 @@ Kata 1 : Next steps
   - etc
 - clustering
 
-
-Kata 2
-========================================================
-type: section
-
-**Topic modeling of recent papers in rpubmed**
-
-Kata 2 : Topic modeling
-========================================================
-
-rOpenSci Packages
-[http://ropensci.org/packages/index.html](http://ropensci.org/packages/index.html)
-
-```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
-install.packages("rpubmed")
-require(rpubmed)
-```
-
 Final notes
 ========================================================
 
 To extract R code from this presentation run:
 
-```{r warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE}
-require(knitr)
-purl("./Presentation/dojo_25FEB2014.Rpres",
-     "./R/dojo_25FEB2014.R")
-```
+  purl("Presentation/dojo_25FEB2014.Rpres", "R/dojo_25FEB2014.R")
+  

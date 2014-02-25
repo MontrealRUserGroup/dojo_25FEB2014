@@ -27,7 +27,7 @@ reut21578.corpus <- tm_map(reut21578.corpus,
 ## ----warning=FALSE,cache=TRUE, tidy=TRUE---------------------------------
 reut21578.corpus <- tm_map(reut21578.corpus, stemDocument, language = "english")
 reut21578.matrix <- as.matrix(TermDocumentMatrix(reut21578.corpus,
-  control=list(bounds=list(global = c(5,Inf)))))
+  control=list(bounds=list(global = c(5, Inf)))))
 
 
 ## ----warning=FALSE,cache=TRUE, tidy=TRUE---------------------------------
@@ -62,28 +62,24 @@ desc <- ldply(desc_urls, function(x)read.dcf(url(x)))
 
 
 ## ----echo=FALSE----------------------------------------------------------
-  setwd(wd)
-  load(file="./Data/package_corpus.RData")
+  # Previous steps can be skiped by loading this RData file
+
+  # load(file="Data/package_corpus.RData")
 
 
-## ----warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE---------------------
+
+## ----cache=TRUE, tidy=TRUE, error=FALSE----------------------------------
 package.corpus <- Corpus(DataframeSource(data.frame(desc$Description)))
 package.matrix <- as.matrix(TermDocumentMatrix(package.corpus,
   control=list(bounds=list(global = c(5,Inf)))))
 
 
 ## ----warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE---------------------
-head(package.matrix[,1:5])
-
-
-## ----warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE---------------------
-install.packages("rpubmed")
-require(rpubmed)
+head(package.matrix[,1:15])
 
 
 ## ----warning=FALSE,error=FALSE,cache=TRUE, tidy=TRUE---------------------
 require(knitr)
-purl("./Presentation/dojo_25FEB2014.Rpres",
-     "./R/dojo_25FEB2014.R")
+purl("Presentation/dojo_25FEB2014.Rpres", "R/dojo_25FEB2014.R")
 
 
