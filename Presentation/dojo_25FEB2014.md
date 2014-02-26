@@ -7,6 +7,7 @@ css: my_style.css
 Text Mining & Machine Learning
 --------------------------------------------------------
 
+[https://github.com/MontrealRUserGroup/dojo_25FEB2014](http://bit.ly/dojo2)
 
 Coding Dojo
 ========================================================
@@ -16,6 +17,11 @@ Coding Dojo
 
 DeliberatePractice using challenges (katas) to improve skills.
 
+
+```r
+  wd <- getwd() # on my system: "~/git/MTLRUSER/CodeDojo/dojo_25FEB2014"
+  wd
+```
 
 ```
 [1] "/media/v/home/v/git/MTLRUSER/CodeDojo/dojo_25FEB2014/Presentation"
